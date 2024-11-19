@@ -64,37 +64,51 @@ def main():
     diamonds = [i for i in range(1, 13+1)]
     random.shuffle(diamonds)
 
-    print(diamonds)
+    # print(f"{diamonds}\n")
     game = Game(diamonds)
 
     for t in range(13):
-        print(f"Begin Turn {t+1}. Treasure is: {game.diamonds[t]} + {game.tie}")
+        if game.tie != 0:
+            print(f"Begin Turn {t+1}. Treasure is: {game.diamonds[t]} + {game.tie}")
+        else:
+            print(f"Begin Turn {t+1}. Treasure is: {game.diamonds[t]}")
         
         error = True
 
-        while error == True or game.player1.cards_left[bid1] == False:
+        while error == True or not bid1 in game.player1.cards_left.keys() or game.player1.cards_left[bid1] == False:
             try:
                 bid1 = int(getpass(f"Turn {t+1}. Player 1's Bid on Total Treasure {game.diamonds[t] + game.tie}: "))
                 error = False
+
+                if not int(bid1) in game.player1.cards_left.keys() or game.player1.cards_left[bid1] == False:
+                    error = True
             except KeyboardInterrupt:
                 exit()
             except (NameError, ValueError):
                 error = True
-                print("\n\t Input Error: Try again!")
+            finally:
+                if error:
+                    print("\n\t Input Error: Try again!")
 
 
         
         error = True
 
-        while error == True or game.player1.cards_left[bid2] == False:
+        while error == True or not bid2 in game.player2.cards_left.keys() or game.player2.cards_left[bid2] == False:
             try:
                 bid2 = int(getpass(f"Turn {t+1}. Player 2's Bid on Total Treasure {game.diamonds[t] + game.tie}: "))
                 error = False
+
+                if not int(bid2) in game.player2.cards_left.keys() or game.player2.cards_left[bid2] == False:
+                    error = True
+
             except KeyboardInterrupt:
                 exit()
             except (NameError, ValueError):
                 error = True
-                print("\n\t Input Error: Try again!")
+            finally:
+                if error:
+                    print("\n\t Input Error: Try again!")
 
         w = game.turn(bid1, bid2, game.diamonds[t])
 
