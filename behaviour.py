@@ -68,25 +68,40 @@ def main():
     game = Game(diamonds)
 
     for t in range(13):
-        print(f"Begin Turn {t+1}. Treasure is: {game.diamonds[t]}")
-        bid1 = int(getpass(f"Turn {t+1}. Player 1's Bid on Treasure {game.diamonds[t]}: "))
-    
-        while game.player1.cards_left[bid1] == False:
-            bid1 = int(getpass(f"Turn {t+1}. Player 1's Bid on Treasure {game.diamonds[t]}: "))
+        print(f"Begin Turn {t+1}. Treasure is: {game.diamonds[t]} + {game.tie}")
         
+        error = True
+
+        while error == True or game.player1.cards_left[bid1] == False:
+            try:
+                bid1 = int(getpass(f"Turn {t+1}. Player 1's Bid on Total Treasure {game.diamonds[t] + game.tie}: "))
+                error = False
+            except KeyboardInterrupt:
+                exit()
+            except (NameError, ValueError):
+                error = True
+                print("\n\t Input Error: Try again!")
 
 
-        bid2 = int(getpass(f"Turn {t+1}. Player 2's Bid on Treasure {game.diamonds[t]}: "))
+        
+        error = True
 
-        while game.player1.cards_left[bid2] == False:
-            bid2 = int(getpass(f"Turn {t+1}. Player 2's Bid on Treasure {game.diamonds[t]}: "))
+        while error == True or game.player1.cards_left[bid2] == False:
+            try:
+                bid2 = int(getpass(f"Turn {t+1}. Player 2's Bid on Total Treasure {game.diamonds[t] + game.tie}: "))
+                error = False
+            except KeyboardInterrupt:
+                exit()
+            except (NameError, ValueError):
+                error = True
+                print("\n\t Input Error: Try again!")
 
         w = game.turn(bid1, bid2, game.diamonds[t])
 
         if w != 0:
-            print(f"Player {w} Wins {game.diamonds[t]} with (1: {bid1}) against (2: {bid2})!")
+            print(f"Player {w} Wins {game.diamonds[t] + game.tie} with (1: {bid1}) against (2: {bid2})!")
         else:
-            print(f"Draw! Next turn")
+            print(f"Draw! Both players bid {bid1}. Next turn")
         
 
         print(f"Standings:\n\tPlayer 1 has {game.player1.points} points\n\tPlayer 2 has {game.player2.points} points")
