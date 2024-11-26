@@ -3,11 +3,8 @@
 ## Kyle Sung :)
 ## Last Edited: 2024-11-26
 
-import random
+# import random
 from getpass import getpass
-import numpy as np
-
-
 
 class Player:
     '''
