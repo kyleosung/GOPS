@@ -1,8 +1,7 @@
 ## Game of Pure Skill (GOPS)
 ## behaviour.py -- implements the game behaviour
-## Kyle Sung
-## 2024-11-19
-
+## Kyle Sung :)
+## Last Edited: 2024-11-26
 
 import random
 from getpass import getpass
@@ -12,7 +11,7 @@ import numpy as np
 
 class Player:
     '''
-    Encodes the behaviour for each of the players in the game
+    Encodes the behaviour for each of the players in the game.
     '''
 
     def __init__(self, id):
@@ -23,13 +22,16 @@ class Player:
         self.points = 0
     
     def win_point(self, treasure):
+        '''
+        Adds an integer number of points to the players score.
+        '''
         self.points += treasure
 
 
 
 class Game:
     '''
-    Encodes the game state (including the players, list of diamonds, and whether the previous turn was a tie (thus awarding more points)
+    Encodes the game state (including the players, list of diamonds, and whether the previous turn was a tie (thus awarding more points).
     '''
 
     def __init__(self, diamonds):
@@ -39,6 +41,9 @@ class Game:
         self.tie = 0
     
     def turn(self, bid1, bid2, treasure):
+        '''
+        Implements one bid round.
+        '''
         self.player1.cards_left[bid1] = False
         self.player2.cards_left[bid2] = False
 
@@ -61,6 +66,9 @@ class Game:
 
 
 def main():
+    '''
+    Main function. Runs the game.
+    '''
     diamonds = [i for i in range(1, 13+1)]
     random.shuffle(diamonds)
 
@@ -88,7 +96,7 @@ def main():
                 error = True
             finally:
                 if error:
-                    print("\n\t Input Error: Try again!")
+                    print(f"\n\t Input Error: Try again! You have {game.player1.cards_left}")
 
 
         
@@ -108,7 +116,7 @@ def main():
                 error = True
             finally:
                 if error:
-                    print("\n\t Input Error: Try again!")
+                    print(f"\n\t Input Error: Try again! You have {game.player2.cards_left}")
 
         w = game.turn(bid1, bid2, game.diamonds[t])
 
@@ -123,5 +131,7 @@ def main():
         print()
 
 
+
+## Run the main function if this file is ran as a test.
 if __name__ == "__main__":
     main()
